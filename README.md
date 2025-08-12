@@ -1,14 +1,3 @@
-# TermAI - Evolution to Full AI Assistant (OpenCode Genesis)
-
-This is the **evolution** of TermAI from a basic TUI demo to a full AI assistant with database persistence - tracing the journey that would eventually become OpenCode.
-
-## Current State Analysis (After "add initial stuff" commit)
-
-**Project Name**: `termai` (Terminal AI)  
-**Language**: Go  
-**Architecture**: Full-stack terminal AI assistant with SQLite database  
-**Author**: Kujtim Hoxha  
-**Integration**: Initial commit → Help system → Full AI assistant architecture
 
 ## Architecture Overview
 
@@ -103,7 +92,7 @@ This evolved version is a **complete AI assistant application** with database pe
 
 1. **Navigate to the project directory**:
    ```bash
-   cd /home/poridhi/development/opencode-poc
+   cd /home/user/development/opencode-poc
    ```
 
 2. **Install dependencies**:
