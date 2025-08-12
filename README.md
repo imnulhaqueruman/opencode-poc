@@ -273,3 +273,4 @@ This version represents the **complete architecture foundation** for an AI assis
 
 
 
+[watch](./resources/puku-test-2.gif)
