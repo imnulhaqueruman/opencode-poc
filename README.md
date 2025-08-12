@@ -281,6 +281,6 @@ CREATE TABLE sessions (
 ```
 
 This version represents the **complete architecture foundation** for an AI assistant - with persistent sessions, message threading, and professional CLI framework. The next steps would be adding actual AI provider integration (OpenAI, Anthropic, etc.) to complete the assistant functionality.
-```html
-<iframe width="560" height="315" src="[https://www.youtube.com/embed/abc123"](https://drive.google.com/file/d/1eMCPuRoFbhSLIld27N0bNkq_hKD1HEA9/view?usp=sharing)" frameborder="0" allowfullscreen></iframe>
-```
+
+<iframe width="560" height="315" src="[https://www.youtube.com/embed/abc123"](https://drive.google.com/file/d/1eMCPuRoFbhSLIld27N0bNkq_hKD1HEA9/view?usp=sharing) frameborder="0" allowfullscreen></iframe>
+
