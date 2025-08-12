@@ -1,0 +1,19 @@
+data:
+    directory: .termai
+log:
+    level: info
+model:
+    coder: qwen-qwq
+    task: qwen-qwq
+    coderMaxTokens: 4000
+    taskMaxTokens: 1024
+providers:
+    groq:
+        apiKey: 
+        enabled: true
+    anthropic:
+        apiKey: ""
+        enabled: false
+    openai:
+        apiKey: ""
+        enabled: false
