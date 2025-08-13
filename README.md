@@ -198,6 +198,7 @@ go build -o termai .
 # Or with debug logging
 ./termai --debug
 ```
+[watch](./resources/puku.gif)
 
 #### **Interface Overview**
 ```
