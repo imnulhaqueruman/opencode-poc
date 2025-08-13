@@ -33,27 +33,27 @@ CREATE TABLE IF NOT EXISTS messages (
     FOREIGN KEY (session_id) REFERENCES sessions (id) ON DELETE CASCADE
 );
 
--- CREATE INDEX IF NOT EXISTS idx_messages_session_id ON messages (session_id);
+CREATE INDEX IF NOT EXISTS idx_messages_session_id ON messages (session_id);
 
--- CREATE TRIGGER IF NOT EXISTS update_messages_updated_at
--- AFTER UPDATE ON messages
--- BEGIN
--- UPDATE messages SET updated_at = strftime('%s', 'now')
--- WHERE id = new.id;
--- END;
+CREATE TRIGGER IF NOT EXISTS update_messages_updated_at
+AFTER UPDATE ON messages
+BEGIN
+UPDATE messages SET updated_at = strftime('%s', 'now')
+WHERE id = new.id;
+END;
 
--- CREATE TRIGGER IF NOT EXISTS update_session_message_count_on_insert
--- AFTER INSERT ON messages
--- BEGIN
--- UPDATE sessions SET
---     message_count = message_count + 1
--- WHERE id = new.session_id;
--- END;
+CREATE TRIGGER IF NOT EXISTS update_session_message_count_on_insert
+AFTER INSERT ON messages
+BEGIN
+UPDATE sessions SET
+    message_count = message_count + 1
+WHERE id = new.session_id;
+END;
 
--- CREATE TRIGGER IF NOT EXISTS update_session_message_count_on_delete
--- AFTER DELETE ON messages
--- BEGIN
--- UPDATE sessions SET
---     message_count = message_count - 1
--- WHERE id = old.session_id;
--- END;
+CREATE TRIGGER IF NOT EXISTS update_session_message_count_on_delete
+AFTER DELETE ON messages
+BEGIN
+UPDATE sessions SET
+    message_count = message_count - 1
+WHERE id = old.session_id;
+END;

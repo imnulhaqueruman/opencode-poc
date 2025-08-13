@@ -20,6 +20,10 @@ var rootCmd = &cobra.Command{
 	Short: "A terminal ai assistant",
 	Long:  `A terminal ai assistant`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		if cmd.Flag("help").Changed {
+			cmd.Help()
+			return nil
+		}
 		debug, _ := cmd.Flags().GetBool("debug")
 		err := config.Load(debug)
 		if err != nil {
@@ -117,5 +121,6 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().BoolP("debug", "d", false, "Enable debug mode")
+	rootCmd.Flags().BoolP("help", "h", false, "Help")
+	rootCmd.Flags().BoolP("debug", "d", false, "Help")
 }
