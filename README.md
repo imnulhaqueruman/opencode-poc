@@ -81,75 +81,235 @@ This evolved version is a **complete AI assistant application** with database pe
 - **Glamour**: Markdown rendering for terminals
 - **Catppuccin**: Color theme support
 
-## Setup Instructions
+## 🚀 Quick Start Guide
 
 ### Prerequisites
 
-- **Go 1.23.5+** (specified in go.mod)
-- Terminal with true color support (recommended)
+- **Go 1.23.5+** (check with `go version`)
+- **Git** for cloning the repository
+- **Terminal** with true color support (recommended)
+- **API Key** for at least one LLM provider (see configuration below)
 
-### Installation & Running
+### Installation & Setup
 
-1. **Navigate to the project directory**:
-   ```bash
-   cd /home/user/development/opencode-poc
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   go mod download
-   ```
-
-3. **Initialize the database**:
-   ```bash
-   # The application will automatically create and migrate the database on first run
-   ```
-
-4. **Build and run**:
-   ```bash
-   # Build the application
-   go build -o termai .
-   
-   # Run the application  
-   ./termai
-   
-   # Or run directly
-   go run .
-   ```
-
-5. **CLI Usage**:
-   ```bash
-   # Show help
-   ./termai --help
-   
-   # Run in debug mode
-   ./termai --debug
-   ```
-
-### Development Commands
-
+#### 1. **Clone the Repository**
 ```bash
-# Run in development mode
+git clone https://github.com/imnulhaqueruman/opencode-poc.git
+cd opencode-poc
+```
+
+#### 2. **Install Dependencies**
+```bash
+# Download all Go dependencies
+go mod download
+
+# Clean up dependencies (if needed)
+go mod tidy
+```
+
+#### 3. **Configure LLM Provider**
+Create a `.termai.yaml` file in the project root with your API configuration:
+
+```yaml
+# .termai.yaml - Configuration file
+data:
+    directory: .termai          # Local data storage directory
+
+log:
+    level: info                 # Log level: debug, info, warn, error
+
+model:
+    coder: claude-3-5-sonnet-20241022    # Primary coding model
+    task: claude-3-5-sonnet-20241022     # Task execution model
+    coderMaxTokens: 8000
+    taskMaxTokens: 4000
+
+providers:
+    # Anthropic Claude (Recommended)
+    anthropic:
+        apiKey: "your-anthropic-api-key-here"
+        enabled: true
+    
+    # OpenAI GPT
+    openai:
+        apiKey: "your-openai-api-key-here" 
+        enabled: false
+    
+    # Google Gemini
+    gemini:
+        apiKey: "your-gemini-api-key-here"
+        enabled: false
+        
+    # Groq (Fast inference)
+    groq:
+        apiKey: "your-groq-api-key-here"
+        enabled: false
+```
+
+**Alternative: Environment Variables**
+```bash
+# Set API keys via environment variables
+export ANTHROPIC_API_KEY="your-anthropic-api-key"
+export OPENAI_API_KEY="your-openai-api-key"
+export GEMINI_API_KEY="your-gemini-api-key"
+export GROQ_API_KEY="your-groq-api-key"
+```
+
+#### 4. **Build and Run**
+```bash
+# Option 1: Run directly (for development)
 go run .
 
-# Build binary
-go build -o bin/termai .
+# Option 2: Build and run executable
+go build -o termai .
+./termai
 
-# Clean build
-go mod tidy && go build .
+```
 
-# Run tests
-go test ./...
+### 🎯 Getting API Keys
 
-# Format code
-go fmt ./...
+#### **Anthropic Claude (Recommended)**
+1. Visit [console.anthropic.com](https://console.anthropic.com)
+2. Create account and get API key
+3. Models: `claude-3-5-sonnet-20241022`, `claude-3-haiku-20240307`
 
-# Check for issues
-go vet ./...
+#### **OpenAI**
+1. Visit [platform.openai.com](https://platform.openai.com)
+2. Generate API key in API section
+3. Models: `gpt-4o`, `gpt-4o-mini`, `gpt-3.5-turbo`
 
-# View database (SQLite CLI)
-sqlite3 ./data/termai.db ".tables"
-sqlite3 ./data/termai.db "SELECT * FROM sessions;"
+#### **Google Gemini**
+1. Visit [ai.google.dev](https://ai.google.dev)
+2. Get API key from Google AI Studio
+3. Models: `gemini-2.0-flash`, `gemini-1.5-pro`
+
+#### **Groq (Fast & Free)**
+1. Visit [console.groq.com](https://console.groq.com)
+2. Sign up and get free API key
+3. Models: `qwen-qwq`, `llama-3.1-70b-versatile`
+
+### 🎮 Usage Instructions
+
+#### **First Run**
+```bash
+# Start the application
+./termai
+
+# Or with debug logging
+./termai --debug
+```
+
+#### **Interface Overview**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        TermAI Interface                        │
+├─────────────────┬───────────────────────────────────────────────┤
+│   Sessions      │              Messages                         │
+│                 │                                               │
+│ • New Session   │  User: How do I create a Go project?         │
+│ • Project Help  │                                               │
+│ • Debug Issue   │  Assistant: I'll help you create a Go        │
+│                 │  project. First, let me check if Go is       │
+│                 │  installed...                                 │
+│                 │                                               │
+├─────────────────┼───────────────────────────────────────────────┤
+│                 │              Editor                           │
+│                 │                                               │
+│                 │  Type your message here...                    │
+│                 │  Ctrl+Enter to send                           │
+└─────────────────┴───────────────────────────────────────────────┘
+```
+
+#### **Keyboard Shortcuts**
+- **`?`** - Toggle help overlay
+- **`Ctrl+Enter`** - Send message 
+- **`Esc`** - Close dialogs/go back
+- **`L`** - Switch to logs page
+- **`Ctrl+C`** / **`q`** - Quit application
+
+#### **CLI Options**
+```bash
+./termai --help              # Show all available options
+./termai --debug             # Enable debug logging
+./termai --config=/path/to/config.yaml  # Custom config file
+```
+
+## 🛠️ Development Commands
+
+```bash
+# Development workflow
+go run .                     # Run directly for development
+go build -o termai .         # Build binary
+go mod tidy                  # Clean dependencies
+go mod download              # Download dependencies
+
+# Code quality
+go fmt ./...                 # Format code
+go vet ./...                 # Static analysis
+go test ./...                # Run tests
+
+# Database operations
+sqlite3 ./.termai/termai.db ".tables"                    # List tables
+sqlite3 ./.termai/termai.db "SELECT * FROM sessions;"    # View sessions
+sqlite3 ./.termai/termai.db ".schema"                    # View schema
+
+# Code generation (if modifying SQL)
+sqlc generate                # Generate type-safe Go code from SQL
+```
+
+## 🚨 Troubleshooting
+
+### **Common Issues**
+
+#### **1. Import Path Errors**
+```bash
+# Error: no required module provides package
+go mod tidy
+go clean -modcache
+go mod download
+```
+
+#### **2. Missing API Key**
+```bash
+# Error: provider is not enabled
+# Solution: Set API key in .termai.yaml or environment variable
+export ANTHROPIC_API_KEY="your-api-key-here"
+```
+
+#### **3. Database Permission Issues**
+```bash
+# Error: failed to create data directory
+# Solution: Check permissions
+chmod 755 .termai/
+```
+
+#### **4. Build Issues**
+```bash
+# Clean and rebuild
+go clean
+go mod tidy
+go build .
+```
+
+### **Getting Help**
+
+#### **Check Configuration**
+```bash
+./termai --debug    # Enable debug logging to see configuration
+```
+
+#### **Verify Setup**
+```bash
+go version          # Check Go version (need 1.23.5+)
+ls -la .termai.yaml # Check config file exists
+echo $ANTHROPIC_API_KEY  # Check environment variables
+```
+
+#### **Test Database**
+```bash
+# Check if database is created properly
+ls -la .termai/
+sqlite3 ./.termai/termai.db ".tables"
 ```
 
 ## Interface Overview
@@ -193,41 +353,6 @@ The current TUI features a **professional AI assistant interface**:
 - Simple page routing system
 - State preservation between pages
 - Lazy page initialization
-
-## Evolution Notes
-
-This version (after "add help" commit) includes:
-
-### ✅ Added in Help Commit:
-- **Help System** (`?` key) - Toggle contextual help overlay
-- **Status Bar** - Shows version, help hint, errors/info messages
-- **Version Management** - Build-time version tracking
-- **Enhanced Keybindings** - More navigation options
-- **Error/Info Messaging** - User feedback system
-- **Improved Layout** - Status bar integration
-
-### Still Missing (Future Commits):
-- **No AI integration yet** - Pure TUI framework
-- **No file operations** - Just UI structure  
-- **No provider system** - Missing AI/LLM integration
-- **No tools** - No bash, edit, read, etc. tools
-- **Go-only** - Before the TypeScript/Bun rewrite
-
-The architecture shows early design decisions that would influence the final product:
-- Multi-pane interfaces with help overlay
-- Event-driven architecture with status messaging
-- Component separation and modularity
-- Real-time logging/messaging with user feedback
-
-## Next Steps in Evolution
-
-To see how this evolved into OpenCode, you would trace through commits to see:
-
-1. **AI Integration** - Adding LLM providers
-2. **Tool System** - File operations, shell commands
-3. **Language Migration** - Go → TypeScript/Bun
-4. **HTTP API** - Server mode development
-5. **Multi-provider Support** - Anthropic, OpenAI, etc.
 
 ## Running the Current Version
 
@@ -633,30 +758,7 @@ func (c *agent) ExecuteTools(toolCalls []ToolCall, tools []BaseTool) []ToolResul
 - **Timeout Management**: Configurable timeouts for tool execution
 - **Error Recovery**: Graceful error handling with user feedback
 
-### Performance Optimizations
 
-```bash
-# Database optimizations
-- WAL mode for concurrent access
-- Prepared statements via SQLC  
-- Indexed message queries
-- Automatic timestamp triggers
-
-# Memory management
-- Streaming responses (no buffering)
-- Concurrent tool execution
-- Connection pooling
-- Event-driven architecture
-
-# User experience
-- Real-time UI updates via Pub/Sub
-- Non-blocking async processing  
-- Progress indicators during long operations
-- Vim-style editor with familiar keybindings
-```
 
 This architecture provides **production-ready LLM integration** with streaming responses, tool execution, persistent conversations, and real-time user interface updates.
 
-
-
-[watch](./resources/puku-test-2.gif)
